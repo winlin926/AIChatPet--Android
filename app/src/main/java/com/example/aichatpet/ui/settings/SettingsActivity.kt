@@ -16,7 +16,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.aichatpet.MyApplication
 import com.example.aichatpet.databinding.ActivitySettingsBinding
 import com.example.aichatpet.ui.auth.LoginActivity
-import com.example.aichatpet.ui.auth.RegisterActivity // 确保导入RegisterActivity以访问其常量
+import com.example.aichatpet.ui.auth.RegisterActivity
+// 如果 ApiConfigActivity 和 SettingsActivity 在同一个包 (ui.settings) 下，则下面的导入不是必需的。
+// 但如果 ApiConfigActivity 在不同的包，例如 com.example.aichatpet.ui，则需要像下面这样导入：
+// import com.example.aichatpet.ui.ApiConfigActivity // <--- 示例导入，根据您的实际包结构调整
 import com.example.aichatpet.viewmodel.ClearHistoryStatus
 import com.example.aichatpet.viewmodel.SettingsViewModel
 
@@ -62,8 +65,14 @@ class SettingsActivity : AppCompatActivity() {
         binding.layoutPetName.setOnClickListener { showEditPetNameDialog() }
         binding.layoutClearHistory.setOnClickListener { showClearHistoryConfirmationDialog() }
         binding.layoutApiSettings.setOnClickListener {
-            // startActivity(Intent(this, ApiConfigActivity::class.java)) // 假设ApiConfigActivity存在
-            Toast.makeText(this, "API配置页面待实现", Toast.LENGTH_SHORT).show()
+            // --- 修改开始 ---
+            // 创建跳转到 ApiConfigActivity 的 Intent
+            // 假设 ApiConfigActivity 也在 com.example.aichatpet.ui.settings 包下
+            // 如果不是，请确保顶部的 import 语句正确，并且这里的类引用也正确
+            val intent = Intent(this, ApiConfigActivity::class.java)
+            startActivity(intent) // 执行跳转
+            // Toast.makeText(this, "API配置页面待实现", Toast.LENGTH_SHORT).show() // 已删除或注释掉这行
+            // --- 修改结束 ---
         }
         binding.layoutAboutApp.setOnClickListener { showAboutAppDialog() }
         binding.buttonLogout.setOnClickListener { showLogoutConfirmationDialog() }
@@ -83,7 +92,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         val layout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(60, 40, 60, 20)
+            setPadding(60, 40, 60, 20) // 可以考虑使用 dp 单位，或者通过 dimens.xml 定义
             addView(editText)
         }
         AlertDialog.Builder(this)
@@ -157,10 +166,7 @@ class SettingsActivity : AppCompatActivity() {
                 userPrefsEditor.remove(RegisterActivity.KEY_PASSWORD)
                 userPrefsEditor.remove(RegisterActivity.KEY_EMAIL)
                 // 清除登录状态标记
-                userPrefsEditor.putBoolean(RegisterActivity.KEY_IS_LOGGED_IN, false) // <<< 重要修改
-                // 可选：是否清除宠物名和改名标记
-                // userPrefsEditor.remove(keyForPetName)
-                // userPrefsEditor.remove(KEY_PET_NAME_JUST_CHANGED)
+                userPrefsEditor.putBoolean(RegisterActivity.KEY_IS_LOGGED_IN, false)
                 userPrefsEditor.apply()
 
                 Toast.makeText(this, "已退出登录", Toast.LENGTH_SHORT).show()
@@ -168,7 +174,7 @@ class SettingsActivity : AppCompatActivity() {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
                 startActivity(intent)
-                finishAffinity() // 关闭当前任务中的所有Activity，确保回到登录页时栈是干净的
+                finishAffinity()
             }
             .setNegativeButton("取消", null)
             .show()
@@ -179,22 +185,22 @@ class SettingsActivity : AppCompatActivity() {
             when (status) {
                 ClearHistoryStatus.LOADING -> {
                     binding.layoutClearHistory.isEnabled = false
-                    binding.buttonLogout.isEnabled = false
+                    binding.buttonLogout.isEnabled = false // 在清除时也禁用登出按钮，防止意外操作
                     Toast.makeText(this, "正在清除聊天记录...", Toast.LENGTH_SHORT).show()
                 }
                 ClearHistoryStatus.SUCCESS -> {
                     Toast.makeText(this, "聊天记录已清除！", Toast.LENGTH_LONG).show()
-                    settingsViewModel.onClearHistoryStatusHandled() // 重置状态
+                    settingsViewModel.onClearHistoryStatusHandled()
                     binding.layoutClearHistory.isEnabled = true
                     binding.buttonLogout.isEnabled = true
                 }
                 ClearHistoryStatus.FAILURE -> {
-                    // 错误消息应通过 errorMessage LiveData 显示
-                    settingsViewModel.onClearHistoryStatusHandled() // 重置状态
+                    // 错误消息应通过 errorMessage LiveData 显示 (已在下面处理)
+                    settingsViewModel.onClearHistoryStatusHandled()
                     binding.layoutClearHistory.isEnabled = true
                     binding.buttonLogout.isEnabled = true
                 }
-                ClearHistoryStatus.IDLE, null -> {
+                ClearHistoryStatus.IDLE, null -> { // 包含 null 以处理初始状态
                     binding.layoutClearHistory.isEnabled = true
                     binding.buttonLogout.isEnabled = true
                 }
@@ -204,13 +210,13 @@ class SettingsActivity : AppCompatActivity() {
         settingsViewModel.errorMessage.observe(this) { error ->
             error?.let {
                 Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-                settingsViewModel.clearErrorMessage() // 确保错误消息只显示一次
+                settingsViewModel.clearErrorMessage()
             }
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        finish() // 当点击Toolbar的返回箭头时，关闭当前Activity
         return true
     }
 }
