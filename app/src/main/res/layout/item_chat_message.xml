@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/textViewMessageSender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:text="发送者" /> <TextView
+    android:id="@+id/textViewMessageText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:textSize="16sp"
+    android:background="@drawable/bg_chat_bubble_pet" android:padding="10dp"
+    android:textColor="@android:color/white"
+    android:text="这是消息内容..." /> <TextView
+    android:id="@+id/textViewMessageTimestamp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end"
+    android:textSize="10sp"
+    android:layout_marginTop="4dp"
+    android:text="时间戳" /> </LinearLayout>

@@ -1,0 +1,66 @@
+[versions]
+agp = "8.6.0" # 假设这是你 AGP 的版本
+kotlin = "1.9.0" # 你当前的 Kotlin 版本
+ksp = "1.9.0-1.0.13" # <--- 新增 KSP 版本。请确保这个版本与你的 Kotlin 版本 (1.9.0) 兼容。
+# 1.9.0-1.0.13 是一个示例，你可能需要查找与 Kotlin 1.9.0 匹配的最新稳定 KSP 版本。
+# 例如，如果 Kotlin 1.9.22 可用，且其兼容的 KSP 是 1.9.22-1.0.17，则都更新。
+# 保持 Kotlin 和 KSP 版本的兼容性非常重要。
+coreKtx = "1.10.1" # 注意：较新的 core-ktx 版本如 1.13.1 或 1.12.0 可能更适合较新的 compileSdk
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+appcompat = "1.6.1"
+material = "1.10.0"
+# activity = "1.8.0" # 这个被 activityKtx 覆盖，可以考虑移除或统一
+constraintlayout = "2.1.4"
+lifecycle = "2.8.2" # 这是一个较新的版本
+coroutines = "1.8.1"
+retrofit = "2.11.0"
+gson = "2.11.0"
+room = "2.6.1" # 你在 build.gradle.kts 中也定义了 room_version，两者应保持一致或只用一个来源
+activityKtx = "1.9.0"
+fragmentKtx = "1.8.0"
+okhttpLoggingInterceptor = "4.12.0"
+activity = "1.8.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+# androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" } # 被 activity-ktx 覆盖，可以移除
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
+
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+squareup-retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+squareup-retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+
+google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" } # 注释可以去掉，因为我们会用 KSP
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
+squareup-okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+
+# Coil - 你在 build.gradle.kts 中直接指定了版本，最好也移到这里
+# coil = "2.4.0" # 在 [versions] 中添加
+# coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" } # 在 [libraries] 中添加
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" } # <--- 新增 KSP 插件别名 ---

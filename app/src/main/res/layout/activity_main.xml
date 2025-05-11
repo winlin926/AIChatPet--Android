@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textViewWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我的智慧宠物"
+        android:textSize="22sp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/textViewWelcome"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp">
+
+        <Button
+            android:id="@+id/buttonGoToChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="开始对话 "
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/buttonGoToImageUpload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="上传图像分析 "
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/buttonGoToHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="查看对话历史 "
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/buttonGoToSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="设置"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageViewMainPet"
+        android:layout_width="342dp"
+        android:layout_height="277dp"
+        android:layout_below="@id/layoutButtons"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="可爱的宠物图片"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_pet_paw" />
+
+</RelativeLayout>
